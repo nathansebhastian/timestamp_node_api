@@ -2,10 +2,21 @@
   "name": "timestamp",
   "version": "1.0.0",
   "description": "A simple api to display timestamp",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
+  "keywords": [
+    "API",
+    "timestamp",
+    "Express",
+    "Node",
+    "javascript"
+  ],
   "author": "Surloch",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.14.0",
+    "moment": "^2.14.1"
+  }
 }
