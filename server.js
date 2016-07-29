@@ -2,21 +2,36 @@ var express = require("express");
 var path = require("path");
 var moment = require("moment");
 var app = express();
-var result = {unix: null, natural: null};
 
 app.get('/:query', function (req, res) {
-  var query = new Date(req.params.query);
+  var result = {unix: null, natural: null};
+  console.log(req.params.query);
   
-  if(Object.prototype.toString.call(query) === "[object Date]"){
-    if (!isNaN(query.getTime())) {
-			result.unix = moment(query).format("X"); 
-			result.natural = moment(query).format("MMMM Do, YYYY");
-		// 	result.natural = months[query.getMonth()] + ' ' + query.getDate() + ', ' + query.getFullYear();
-		}
+  var time = moment(req.params.query,
+    [
+      'MM DD YYYY',
+      'MMM DD YYYY',
+      'MMMM D YYYY',
+      'MM DD YY',
+      'MMM DD YY',
+      'MMMM DD YY',
+      'X',
+      'x',
+    ], true);
+  var valid = time.isValid();
+  console.log(valid);
+  
+  if (!valid){
+    res.end(JSON.stringify(result));
+  }
+  else{
+    result.unix = moment(time).format("X"); 
+  	result.natural = moment(time).format("MMMM Do, YYYY");
+    
+    res.writeHead(200, { 'Content-Type': 'application/json'});
+  	res.end(JSON.stringify(result));  
   }
   
-  res.writeHead(200, { 'Content-Type': 'application/json'});
-	res.end(JSON.stringify(result));
 });
 
 
